@@ -1,13 +1,10 @@
 # import publish
 import paho.mqtt.client as mqtt
 import paho.mqtt.subscribe as subscribe
-import random
 import subprocess
 import torch
 import os
-import torchvision
 from torchvision import transforms
-import PIL
 from PIL import Image
 from torchvision.transforms import ToTensor, Normalize
 import time
