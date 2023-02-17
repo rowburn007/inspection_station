@@ -62,7 +62,8 @@ if __name__ == "__main__":
         subprocess.call(['adb', 'shell', "am start -a android.media.action.STILL_IMAGE_CAPTURE",
                          ';input', 'keyevent', 'KEYCODE_FOCUS',
                          ';sleep', '1',
-                         ';input', 'keyevent', 'KEYCODE_CAMERA'])
+                         ';input', 'keyevent', 'KEYCODE_CAMERA',
+                         ';sleep', '2'])
 
     def classify_image():
         pics = subprocess.check_output(['adb', 'shell', 'cd', '/storage/self/primary/DCIM/Camera', '; ls'])
@@ -75,12 +76,12 @@ if __name__ == "__main__":
 
         # Finds most recent image
         list_Length = len(image_list)
-        last_image = image_list[list_Length - 2]
+        last_image = image_list[list_Length - 1]
         print(f'Last image: {last_image}')
 
         # Pulls last image and stores to local directory
         origin_path = f'/storage/self/primary/DCIM/Camera/{last_image}'
-        destination_path = '/images'
+        destination_path = '/app/images'
         subprocess.check_output(['adb', 'pull', origin_path, destination_path])
         time.sleep(1)
         print('Image pulled')
@@ -103,11 +104,11 @@ if __name__ == "__main__":
         # Just normalization for validation
 
         # Finda last image in test directory to classify
-        test_dir = '/images'
+        test_dir = '/app/images'
         img_list = os.listdir(test_dir)
-        last_img = img_list[-1]
-        print(last_img)
-        img = Image.open(f'/images/{last_img}')
+        time.sleep(3)
+        print(f'Actual last image: {last_image}')
+        img = Image.open(f'/app/images/{last_image}')
 
         # Image augmentation (same as model is trained on)
         transform = transforms.Compose([
@@ -133,10 +134,11 @@ if __name__ == "__main__":
         print(_)
         return predicted
 
+
     # Script calls for program to work
     start_subscribe()  # Starts the mqtt subscribe script
     connect_device()  # Connects to device
-    #start_camera()  # Opens camera app
+    # start_camera()  # Opens camera app
     take_pic()  # Takes one picture
     predicted = classify_image()  # Classifies the new picture
     start_publish(predicted)
