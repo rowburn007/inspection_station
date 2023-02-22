@@ -11,8 +11,10 @@ WORKDIR /app
 
 
 COPY --from=builder . .
-COPY main_tray_classifier.py .
+COPY light_tray_classifier.py .
 COPY jan28_Model.pth .
+
+RUN mkdir images
 
 EXPOSE 1883
 
