@@ -12,6 +12,6 @@ RUN apt-get update && apt-get install -y \
     pip install -r requirements.txt
 
 FROM ubuntu
-COPY --from=build ./app .
+COPY --from=builder /app .
 EXPOSE 1883
 CMD ["python3", "./light_tray_classifier.py"]
