@@ -64,7 +64,7 @@ if __name__ == "__main__":
     def classify_image(device):
         event.wait(5)
         pics = device.shell(['cd', '/storage/self/primary/DCIM/Camera', '; ls'])
-        pics = pics.decode('utf-8')
+        #pics = pics.decode('utf-8')
 
         # Stores all image names in list to pull from
         image_list = []
@@ -134,5 +134,5 @@ if __name__ == "__main__":
         # Script calls for program to work
         start_subscribe()  # Starts the mqtt subscribe script
         start_camera()  # Opens camera app
-        predicted = classify_image()  # Classifies the new picture
+        predicted = classify_image(device)  # Classifies the new picture
         start_publish(predicted)

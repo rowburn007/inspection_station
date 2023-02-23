@@ -1,22 +1,17 @@
-# First stage
-FROM python:3.9 AS builder
-COPY requirements.txt .
-
-RUN pip install --user -r requirements.txt
-
-
-# Second stage
-FROM python:3.9-slim
+FROM ubuntu
 WORKDIR /app
-
-
-COPY --from=builder . .
-COPY light_tray_classifier.py .
+COPY requirements.txt requirements.txt
+COPY light_tray_classifier.py ./
 COPY jan28_Model.pth .
 
-RUN mkdir images
+ENV DEBIAN_FRONTEND=noninteractive
 
 EXPOSE 1883
 
-CMD ["python3", "./main_tray_classifier.py"]
+RUN apt-get update -y
+RUN apt-get install -y python3-pip android-tools-adb libssl-dev swig python3-dev gcc
+RUN pip install -r requirements.txt
+RUN mkdir images
 
+
+CMD ["python3", "./light_tray_classifier.py"]
