@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # import publish
 import threading
 import adbutils
