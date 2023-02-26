@@ -1,16 +1,16 @@
-FROM ubuntu AS builder
+FROM python:3.9-slim AS builder
+ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY requirements.txt .
-COPY light_tray_classifier.py .
 COPY jan28_Model.pth .
-RUN apt-get update && \
-    apt-get install -y python3-pip && \
-    mkdir images && \
-    pip install -r requirements.txt && \
-    chmod 755 light_tray_classifier.py
+COPY light_tray_classifier.py .
+RUN chmod 755 light_tray_classifier.py
 
+FROM jeanblanchard/alpine-glibc
+WORKDIR /tc
+COPY --from=builder /app .
+RUN apk add --update --no-cache && \
+    apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
 
-FROM ubuntu
-COPY --from=builder / /
 EXPOSE 1883
-CMD [ "./app/light_tray_classifier.py" ]
+CMD [ "./light_tray_classifier.py" ]

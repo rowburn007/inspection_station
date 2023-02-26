@@ -6,4 +6,6 @@ subscribe.py
 README.md
 .git
 .idea
-android-run-tc.sh
+log
+tmp
+__pycache__
