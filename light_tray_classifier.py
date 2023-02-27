@@ -24,6 +24,8 @@ print(adb.device_list())
 adb.connect('192.168.10.5:5555')
 device = adb.device()
 
+device.shell(['input', 'keyevent', 'KEYCODE_CAMERA',
+                            ';sleep', '0.1'])
 
 def main():
     pass
@@ -52,7 +54,7 @@ if __name__ == "__main__":
     # Subscibes to broker
     def start_subscribe():
         # May need a loop for continuous running
-        msg = subscribe.simple('random_number', hostname='test.mosquitto.org')
+        msg = subscribe.simple('tray_start', hostname='test.mosquitto.org')
         print(msg.payload.decode('utf-8'))
 
 
@@ -73,7 +75,8 @@ if __name__ == "__main__":
             image_list.append(image)
 
         # Finds most recent image
-        last_image = image_list[-2]  # maybe change to -1
+        len_image_list = len(image_list)
+        last_image = image_list[len_image_list-1]  # maybe change to -1
         print(f'Last image: {last_image}')
 
         # Pulls last image and stores to local directory
@@ -132,8 +135,12 @@ if __name__ == "__main__":
 
 
     while running:
-        # Script calls for program to work
-        start_subscribe()  # Starts the mqtt subscribe script
-        start_camera()  # Opens camera app
-        predicted = classify_image(device)  # Classifies the new picture
-        start_publish(predicted)
+        try:
+            # Script calls for program to work
+            start_subscribe()  # Starts the mqtt subscribe script
+            start_camera()  # Opens camera app
+            predicted = classify_image(device)  # Classifies the new picture
+            start_publish(predicted)
+        except (RuntimeError, TypeError, NameError):
+            print('Error')
+            break
