@@ -8,10 +8,11 @@ def start_publish():
 
     # This is the publisher
     client = mqtt.Client()
+    #client.username_pw_set('inspection', 'futurefactories')
     client.connect('test.mosquitto.org', 1883, 60)
 
     num = 2
-    client.publish('random_number', num)
+    client.publish('start_tray', num)
 
 
 if __name__ == '__main__':

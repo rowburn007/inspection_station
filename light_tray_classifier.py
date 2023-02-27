@@ -44,7 +44,6 @@ if __name__ == "__main__":
         # This is the publisher
         client = mqtt.Client()
         client.connect('test.mosquitto.org', 1883, 60)
-
         # May need loop to iterate
         client.publish('tray_classification', predicted)
 
@@ -52,7 +51,7 @@ if __name__ == "__main__":
     # Subscibes to broker
     def start_subscribe():
         # May need a loop for continuous running
-        msg = subscribe.simple('random_number', hostname='test.mosquitto.org')
+        msg = subscribe.simple('start_tray', hostname='test.mosquitto.org')
         print(msg.payload.decode('utf-8'))
 
 
