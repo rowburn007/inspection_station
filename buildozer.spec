@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = Tray Classifier
+title = Tray-Classifier
 
 # (str) Package name
 package.name = trayclass
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.test.kivy
 
 # (str) Source code where the main.py live
 source.dir = .
