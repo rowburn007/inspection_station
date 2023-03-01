@@ -41,8 +41,8 @@ def on_publish(client, userdata, message):
 
 # Define MQTT Broker and Credentials
 broker_address = "test.mosquitto.org"
-username = "tray-classifier"
-password = "futurefactories"
+# username = "tray-classifier"
+# password = "futurefactories"
 
 # Define Topic and Message
 topic = "tray"
@@ -52,7 +52,7 @@ message = "1"
 client = mqtt.Client()
 
 # Set Credentials
-client.username_pw_set(username, password)
+# client.username_pw_set(username, password)
 
 client.on_publish = on_publish
 

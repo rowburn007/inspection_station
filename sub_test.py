@@ -41,13 +41,13 @@ import paho.mqtt.client as mqtt
 
 # Define MQTT Broker and Credentials
 broker_address = "test.mosquitto.org"
-username = "tray-classifier"
-password = "futurefactories"
+# username = "tray-classifier"
+# password = "futurefactories"
 
 # Define Topic
 topic = "tray"
 
-def on_subscribe(client, userdata, rc):
+def on_subscribe(client, userdata, rc, qos):
     print(f"Subscribed with code {rc}")
 # Define Callback Function to Process Received Messages
 def on_message(client, userdata, message):
@@ -58,7 +58,7 @@ client = mqtt.Client()
 
 client.on_subscribe = on_subscribe
 # Set Credentials
-client.username_pw_set(username, password)
+# client.username_pw_set(username, password)
 
 # Connect to MQTT Broker
 client.connect(broker_address, port=1883, keepalive=60)
