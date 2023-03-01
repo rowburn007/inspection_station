@@ -1,0 +1,32 @@
+#:kivy 2.0.0
+
+# Import required modules
+<Button>:
+    font_size: 30
+
+<Root>:
+    canvas.before:
+        Rectangle:
+            source: 'dog.jpg'
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 50
+        spacing: 50
+
+        Label:
+            text: 'Welcome to my Kivy app!'
+            font_size: 50
+            halign: 'center'
+
+        Button:
+            text: 'Click me!'
+            on_release: app.run_shell_script()
+
+        Label:
+            id: result_label
+            text: ''
+            font_size: 30
+            halign: 'center'
