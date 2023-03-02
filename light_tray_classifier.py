@@ -18,6 +18,7 @@ adb = adbutils.AdbClient(host="127.0.0.1", port=5037)
 for info in adb.list():
     print(info.serial, info.state)
 
+# Connects to IP and port, make sure IP and port are correct
 adb.connect('192.168.10.5:5555')
 device = adb.device()
 print(f"Connected to {device}")
@@ -29,6 +30,7 @@ print("Connecting to server")
 ip = '192.168.10.5'
 port = '5555'
 
+# Old code for alternate adb connection
 # subprocess.call('adb')
 # subprocess.call(['adb', 'start-server'])
 # subprocess.call(['adb', 'tcpip', port])
@@ -77,7 +79,10 @@ if __name__ == "__main__":
                      ';sleep', '0.1'])
 
 
+# Function to classify images
     def classify_image(device):
+
+        # wait is to give phone enough time to transfer files
         event.wait(5)
         pics = subprocess.check_output(['adb', 'shell', 'cd', '/storage/self/primary/DCIM/Camera', '; ls'])
         pics = pics.decode('utf-8')
@@ -117,7 +122,7 @@ if __name__ == "__main__":
         event.wait(1)
 
         # Finds last image in test directory to classify
-        test_dir = '/app/images'
+        test_dir = '/app/images'  # /app/images is in docker container
         # img_list = os.listdir(test_dir)
         print(f'Actual last image: {last_image}')
         img = Image.open(f'/app/images/{last_image}')

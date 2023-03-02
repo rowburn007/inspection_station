@@ -1,30 +1,35 @@
+import time
+
 import paho.mqtt.client as mqtt
 
 def on_publish(client, userdata, message):
     print("published")
 
 # Define MQTT Broker and Credentials
-broker_address = "test.mosquitto.org"
-# username = "tray-classifier"
-# password = "futurefactories"
+broker = "test.mosquitto.org"
+port = 1883
+username = "tray-classifier"
+passwd = "futurefactories"
 
 # Define Topic and Message
 topic = "tray"
-message = "1"
 
 # Create MQTT Client
-client = mqtt.Client()
+mqtt = mqtt.Client()
 
 # Set Credentials
-# client.username_pw_set(username, password)
+mqtt.username_pw_set(username, password=passwd)
 
-client.on_publish = on_publish
+mqtt.on_publish = on_publish
 
 # Connect to MQTT Broker
-client.connect(broker_address, port=1883)
-
+mqtt.connect(broker, port)
+mqtt.loop_start()
 # Publish Message to Topic
-client.publish(topic, message)
 
 # Disconnect from MQTT Broker
-client.disconnect()
+# client.disconnect()
+while True:
+    msg = 1
+    time.sleep(0.5)
+    mqtt.publish(topic, msg)

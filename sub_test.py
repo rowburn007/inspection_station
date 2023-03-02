@@ -1,9 +1,10 @@
 import paho.mqtt.client as mqtt
 
 # Define MQTT Broker and Credentials
-broker_address = "test.mosquitto.org"
-# username = "tray-classifier"
-# password = "futurefactories"
+broker = "test.mosquitto.org"
+port = 1883
+username = "tray-classifier"
+passwd = "futurefactories"
 
 # Define Topic
 topic = "tray"
@@ -14,24 +15,21 @@ def on_subscribe(client, userdata, rc, qos):
 def on_message(client, userdata, message):
     print(message.payload.decode("utf-8"))
 
+def on_connect(client, userdata, flag, rc):
+    if rc == 0:
+        print("Connected successfully")
+    else:
+        print(f"Could not connect, rc = {rc}")
 # Create MQTT Client
-client = mqtt.Client()
-
-client.on_subscribe = on_subscribe
+mqtt = mqtt.Client()
 # Set Credentials
-# client.username_pw_set(username, password)
+mqtt.username_pw_set(username, password=passwd)
+mqtt.on_subscribe = on_subscribe
 
 # Connect to MQTT Broker
-client.connect(broker_address, port=1883, keepalive=60)
-# Subscribe to Topic
-client.subscribe(topic)
+mqtt.on_connect = on_connect
+mqtt.connect(broker, port)
+mqtt.subscribe(topic)
+mqtt.on_message = on_message
 
-# Set Callback Function for Received Messages
-client.on_message = on_message
-
-# Start Background Thread for Incoming Messages
-client.loop_start()
-
-# Keep Main Thread Running to Receive Messages
-while True:
-    pass
+mqtt.loop_forever()
