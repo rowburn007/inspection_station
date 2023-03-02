@@ -1,4 +1,4 @@
-android-run-tc.sh
+runtc.sh
 connect-test.py
 main_tray_classifier.py
 publish.py

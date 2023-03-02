@@ -8,7 +8,7 @@ def start_subscribe():
 
     # May need a loop for continuous running
     while True:
-        msg = subscribe.simple('start_tray', hostname='test.mosquitto.org')
+        msg = subscribe.simple('tray_classification', hostname='test.mosquitto.org')
         print(msg.payload.decode('utf-8'))
 
 

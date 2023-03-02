@@ -12,7 +12,7 @@ def start_publish():
     client.connect('test.mosquitto.org', 1883, 60)
 
     num = 2
-    client.publish('start_tray', num)
+    client.publish('tray_start', num)
 
 
 if __name__ == '__main__':

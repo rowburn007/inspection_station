@@ -1,47 +1,32 @@
-import kivy
-
-# this restrict the kivy version i.e
-# below this kivy version you cannot
-# use the app or software
-kivy.require("1.9.1")
-
-# base Class of your App inherits from the App class.
-# app:always refers to the instance of your application
-from kivy.app import App
-
-# creates the button in kivy
-# if not imported shows the error
-from kivy.uix.button import Button
 import os
+import subprocess
 
-# class in which we are creating the button
-class ButtonApp(App):
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.floatlayout import FloatLayout
 
+class TCApp(App):
     def build(self):
-        # use a (r, g, b, a) tuple
-        btn = Button(text="Start Classifier",
-                     font_size="20sp",
-                     background_color=(.1, .2, .8, 1),
-                     color=(1, 1, 1, 1),
-                     size=(64, 64),
-                     size_hint=(.2, .2),
-                     pos=(300, 250))
+        # Define FloatLayout
+        layout = FloatLayout()
 
-        # bind() use to bind the button to function callback
-        btn.bind(on_press=self.callback)
-        return btn
+        # Define Image Widget
+        image = Image(source='next.png', allow_stretch=True, keep_ratio=False)
+        layout.add_widget(image)
 
-    # callback function tells when button pressed
-    def callback(self, event):
-        print("Starting container...")
-        os.system('input keyevent KEYCODE_CAMERA')
+        # Define Button Widget
+        button = Button(text="Start Classification", size_hint=(0.5, 0.1), pos_hint={'x':0.25, 'y':0.05})
+        button.bind(on_press=self.run_script)
+        layout.add_widget(button)
 
+        return layout
 
-# creating the object root for ButtonApp() class
-root = ButtonApp()
+    def run_script(self, instance):
+        # Call Shell Script
+        os.system('su')
+        os.system('sh /storage/emulated/0/run-tc.sh')
 
-# run function runs the whole program
-# i.e run() method which calls the target
-# function passed to the constructor.
-root.run()
-
+if __name__ == "__main__":
+    TCApp().run()
